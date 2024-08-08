@@ -1,3 +1,21 @@
+function getToken() {
+  return localStorage.getItem("token");
+}
+
+const token = getToken();
+if (!token) {
+  console.error("No token found");
+
+} else {
+
+}
+
+const decodedToken = jwt_decode(token);
+console.log("Decoded Token:", decodedToken);
+
+const headers = new Headers();
+headers.append("Authorization", `Bearer ${token}`); 
+
 function injectStyles() {
   const style = `
   <style>
@@ -19,6 +37,7 @@ function injectStyles() {
 function fetchData() {
 fetch("http://localhost:8088/api/v1/admin/menu/all-menus", {
   method: "GET",
+  headers: headers
 })
 .then((response) => response.json())
 .then((data) => {
@@ -335,5 +354,25 @@ fetch('http://localhost:8088/api/v1/admin/menu/create-menu', {
 document.addEventListener("DOMContentLoaded", () => {
 document.getElementById("create-menu").addEventListener("click", createMenu);
 });
+
+function logOut() {
+  console.log('Log Out');
+  localStorage.removeItem('token');
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+document.getElementById("log-out").addEventListener("click", logOut());
+});
+
+function checkAuthentication() {
+const token = getToken();
+if (!token) {
+    window.location.href = 'http://127.0.0.1:5500/pages/sign-in.html'; 
+}
+}
+
+window.onload = function() {
+checkAuthentication();
+};
 
 fetchData();

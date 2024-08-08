@@ -109,7 +109,7 @@
         </li> -->
 
         <li class="nav-item">
-          <a class="nav-link text-white " href="../pages/sign-up.html">
+          <a class="nav-link text-white " href="../pages/sign-up.html" id="log-out">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">assignment</i>
             </div>
@@ -587,7 +587,9 @@
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
   <script src="../assets/js/components/Menu.js"></script>
+  <script>checkAuthentication();</script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

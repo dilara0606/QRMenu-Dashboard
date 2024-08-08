@@ -33,7 +33,8 @@ function showSuccessMessage(message) {
   }
 
 function saveToken(token) {
-    localStorage.setItem('token', token);
+    localStorage.setItem('token', token); 
+    console.log(token);
 }
 
 function getToken() {
