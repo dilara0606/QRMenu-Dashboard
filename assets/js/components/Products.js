@@ -323,12 +323,11 @@ function injectStyles() {
   }
 
   function logOut() {
-    console.log('Log Out');
     localStorage.removeItem('token');
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("log-out").addEventListener("click", logOut());
+  }
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("log-out").addEventListener("click", logOut);
   });
 
 function checkAuthentication() {

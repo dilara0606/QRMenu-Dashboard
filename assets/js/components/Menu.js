@@ -356,18 +356,18 @@ document.getElementById("create-menu").addEventListener("click", createMenu);
 });
 
 function logOut() {
-  console.log('Log Out');
   localStorage.removeItem('token');
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-document.getElementById("log-out").addEventListener("click", logOut());
+  document.getElementById("log-out").addEventListener("click", logOut);
 });
 
+
 function checkAuthentication() {
-const token = getToken();
 if (!token) {
-    window.location.href = 'http://127.0.0.1:5500/pages/sign-in.html'; 
+    // window.location.href = 'http://127.0.0.1:5500/pages/sign-in.html';
+    console.log('no authentication') 
 }
 }
 
