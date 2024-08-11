@@ -312,86 +312,86 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <div class="card my-4">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
-                <h6 class="text-white text-capitalize ps-3">Edit Products</h6>
-                <button id="toggleButton" class="btn btn-light me-3" onclick="toggleEditRow()"><i class="material-icons opacity-10">close</i></button>
-              </div>
-            </div>
-            <div class="card-body px-0 pb-2">
-              <div class="table-responsive p-0" id="editRow" style="display: none;">
-                <div class="container-fluid py-4">
-                  <div class="row">
-                    <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
-                      <div class="card">
-                        <div class="card-header p-3 pt-2">
-                          <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                            <i class="material-icons opacity-10">add_a_photo</i> <!-- Camera icon -->
-                          </div>
-                          <div class="text-end pt-1">
-                            <p class="text-sm mb-0 text-capitalize">Select Image</p>
-                            <h4 id="imageTitle" class="mb-0">No Image Selected</h4> <!-- Placeholder text -->
-                          </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3 d-flex flex-column align-items-center">
-                          <div id="imagePreview" class="mb-3 text-center">
-                            <img id="selectedImage" src="" alt="Image Preview" class="img-fluid" style="display: none; max-width: 100%; height: auto;" />
-                          </div>
-                          <label for="imageUpload" class="btn btn-primary">Choose Image</label>
-                          <input type="file" id="imageUpload" style="display: none;" accept="image/*" onchange="previewImage(event)" />
-                        </div>
-                      </div>
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
+                        <h6 class="text-white text-capitalize ps-3">Edit Products</h6>
+                        <button id="toggleButton" class="btn btn-light me-3" onclick="toggleEditRow()"><i class="material-icons opacity-10">close</i></button>
                     </div>
-                    <div class="col-xl-8 col-sm-6 mb-xl-0 mb-4">
-                      <div class="card">
-                        <div class="card-header p-3 pt-2">
-                          <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                            <i class="material-icons opacity-10">edit</i> <!-- Changed icon to account_circle -->
-                          </div>
-                          <div class="text-end pt-1">
-                            <p class="text-sm mb-0 text-capitalize"></p>
-                            <h4 class="mb-0">Enter Product Information</h4>
-                          </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-body p-3">
-                          <div class="d-flex flex-column">
-                            <div class="d-flex justify-content-between mb-3">
-                              <div class="flex-grow-1 me-2">
-                                <label for="nameInput" class="form-label"><h6 class="mb-0">Name</h6></label>
-                                <input type="text" class="form-control" id="nameInput" placeholder="Enter name" />
-                              </div>
-                              <div class="flex-grow-1">
-                                <label for="descriptionInput" class="form-label"><h6 class="mb-0">Description</h6></label>
-                                <textarea class="form-control" id="descriptionInput" rows="3" placeholder="Enter description"></textarea>
-                              </div>
-                              <div class="flex-grow-1">
-                                <label for="priceInput" class="form-label"><h6 class="mb-0">Price</h6></label>
-                                <input type="number" class="form-control" id="priceInput" placeholder="Type Price" step="1.0">
-                              </div>                              
-                            </div>
-                            <button type="submit" id="edit-product" class="btn btn-primary mt-2">Save</button>
-                          </div>
-                        </div>
-                        <div class="row mt-4" id="categoriesRow2" style="display: none;">
-                          <div class="col-12">
-                            <h6 class="text-capitalize ps-3">Select Categories</h6>
-                            <div class="d-flex flex-wrap" id="categoriesContainer2"></div>
-                          </div>
-                        </div>
-                        <div class="card-footer p-3">
-                        </div>
-                      </div>
-                    </div>               
                 </div>
-              </div>
+                <div class="card-body px-0 pb-2">
+                    <div class="table-responsive p-0" id="editRow" style="display: none;">
+                        <div class="container-fluid py-4">
+                            <div class="row">
+                                <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                                    <div class="card">
+                                        <div class="card-header p-3 pt-2">
+                                            <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                                <i class="material-icons opacity-10">add_a_photo</i>
+                                            </div>
+                                            <div class="text-end pt-1">
+                                                <p class="text-sm mb-0 text-capitalize">Select Image</p>
+                                                <h4 id="imageTitle" class="mb-0">No Image Selected</h4>
+                                            </div>
+                                        </div>
+                                        <hr class="dark horizontal my-0">
+                                        <div class="card-footer p-3 d-flex flex-column align-items-center">
+                                            <div id="imagePreview" class="mb-3 text-center">
+                                                <img id="selectedImage" src="" alt="Image Preview" class="img-fluid" style="display: none; max-width: 100%; height: auto;" />
+                                            </div>
+                                            <label for="imageUpload" class="btn btn-primary">Choose Image</label>
+                                            <input type="file" id="imageUpload" style="display: none;" accept="image/*" onchange="previewImage(event)" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-8 col-sm-6 mb-xl-0 mb-4">
+                                    <div class="card">
+                                        <div class="card-header p-3 pt-2">
+                                            <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                                <i class="material-icons opacity-10">edit</i>
+                                            </div>
+                                            <div class="text-end pt-1">
+                                                <p class="text-sm mb-0 text-capitalize"></p>
+                                                <h4 class="mb-0">Enter Product Information</h4>
+                                            </div>
+                                        </div>
+                                        <hr class="dark horizontal my-0">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex flex-column">
+                                                <div class="d-flex justify-content-between mb-3">
+                                                    <div class="flex-grow-1 me-2">
+                                                        <label for="nameInput" class="form-label"><h6 class="mb-0">Name</h6></label>
+                                                        <input type="text" class="form-control" id="nameInput" placeholder="Enter name" />
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <label for="descriptionInput" class="form-label"><h6 class="mb-0">Description</h6></label>
+                                                        <textarea class="form-control" id="descriptionInput" rows="3" placeholder="Enter description"></textarea>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <label for="priceInput" class="form-label"><h6 class="mb-0">Price</h6></label>
+                                                        <input type="number" class="form-control" id="priceInput" placeholder="Type Price" step="1.0">
+                                                    </div>                              
+                                                </div>
+                                                <button type="submit" id="edit-product" class="btn btn-primary mt-2">Save</button>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-4" id="categoriesRow2" style="display: none;">
+                                            <div class="col-12">
+                                                <h6 class="text-capitalize ps-3">Select Categories</h6>
+                                                <div class="d-flex flex-wrap" id="categoriesContainer2"></div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer p-3">
+                                        </div>
+                                    </div>
+                                </div>               
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      </div>
+    </div>
        <!-- edit menü bitiş -->
        <div class="row">
         <div class="col-12">

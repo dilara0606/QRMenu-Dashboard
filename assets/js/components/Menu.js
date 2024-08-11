@@ -11,7 +11,6 @@ if (!token) {
 }
 
 const decodedToken = jwt_decode(token);
-console.log("Decoded Token:", decodedToken);
 
 const headers = new Headers();
 headers.append("Authorization", `Bearer ${token}`); 
@@ -41,7 +40,6 @@ fetch("http://localhost:8088/api/v1/admin/menu/all-menus", {
 })
 .then((response) => response.json())
 .then((data) => {
-  console.log("Data:", data);
 
   const tableBody = document.querySelector("tbody"); // Select the table body
   tableBody.innerHTML = ""; // Clear the table
@@ -139,8 +137,7 @@ fetch("http://localhost:8088/api/v1/admin/menu/all-menus", {
         document.getElementById('selectedImage').src = item.imageUrl || "";
         document.getElementById('selectedImage').style.display = item.imageUrl ? 'block' : 'none';
         document.getElementById('imageUpload').dataset.itemId = item.id; // Store the item ID for saving later
-
-        console.log(item.imageUrl);
+        loadCategoriesEdit(item.id);
       }
     });
   });
@@ -163,7 +160,6 @@ fetch("http://localhost:8088/api/v1/admin/menu/all-menus", {
 });
 }
 
-// Save button event listener
 document.querySelector('button[type="submit"]').addEventListener('click', () => {
   const id = document.getElementById('imageUpload').dataset.itemId;
   const name = document.getElementById('nameInput').value;
@@ -198,10 +194,12 @@ document.querySelector('button[type="submit"]').addEventListener('click', () => 
 function deleteMenu(id) {
   fetch(`http://localhost:8088/api/v1/admin/menu/delete-menu/${id}`, {
       method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${token}`
+    }
   })
   .then((response) => response.text()) // Get response as text
   .then((text) => {
-      console.log("Deletion Result:", text);
       if (text.trim() === "Menu deleted successfully") { // Check the response
           showToast('Menu deleted successfully!');
           fetchData(); 
@@ -298,7 +296,6 @@ fetch(`http://localhost:8088/api/v1/admin/menu/activate-menu/${topRowId}`, {
     return response.json(); // Yanıtı JSON olarak döndür
 })
 .then(data => {
-    console.log("Activate menu result:", data);
     if (data) {
         showToast('Menu activated successfully!');
         fetchData()
@@ -331,7 +328,8 @@ const menu = {
 fetch('http://localhost:8088/api/v1/admin/menu/create-menu', {
     method: 'POST',
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${token}`
     },
     body: JSON.stringify(menu)
 })
@@ -339,10 +337,11 @@ fetch('http://localhost:8088/api/v1/admin/menu/create-menu', {
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
-    return response.text();
+    return response.json();
 })
 .then(data => {
     showToast("Menu create successfully!")
+    loadCategories(data.id);
     fetchData();
 })
 .catch(error => {
@@ -366,7 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function checkAuthentication() {
 if (!token) {
-    // window.location.href = 'http://127.0.0.1:5500/pages/sign-in.html';
+    window.location.href = 'http://127.0.0.1:5500/pages/sign-in.html';
     console.log('no authentication') 
 }
 }
@@ -374,5 +373,174 @@ if (!token) {
 window.onload = function() {
 checkAuthentication();
 };
+
+function loadCategories(menuId) {
+  fetch('http://localhost:8088/api/v1/admin/category/categories', {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+  .then(response => response.json())
+  .then(categories => {
+      return fetch(`http://localhost:8088/api/v1/admin/all-categories-for-menu/${menuId}`, {
+          headers: {
+              "Authorization": `Bearer ${token}`
+          }
+      }).then(response => response.json())
+      .then(menusCategories => {
+          const categoriesContainer = document.getElementById('categoriesContainer');
+          if (!categoriesContainer) {
+              throw new Error('Categories container edit element not found');
+          }
+
+          categoriesContainer.innerHTML = ''; 
+
+          const selectedCategoryIds = new Set(menusCategories.map(cat => cat.categoryDto.id));
+
+          categories.forEach(category => {
+              const isCategorySelected = selectedCategoryIds.has(category.id);
+              const categoryCard = document.createElement('div');
+              categoryCard.className = 'card m-2 p-2';
+              categoryCard.style.width = '150px';
+              categoryCard.style.cursor = 'pointer';
+              categoryCard.style.backgroundColor = isCategorySelected ? 'red' : 'green'; // Selected category is red, others are green
+              categoryCard.style.color = 'white';
+
+              if(!isCategorySelected) {
+              categoryCard.innerHTML = `
+              <div class="d-flex justify-content-between align-items-center">
+                <span>${category.name}</span>
+                <i class="material-icons" onclick="addCategoryToProduct(${category.id}, ${menuId}, this)">add</i>
+              </div>
+            `;
+            categoriesContainer.appendChild(categoryCard);
+      }
+    
+      if(isCategorySelected) {
+        categoryCard.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center">
+          <span>${category.name}</span>
+          <i class="fa-solid fa-minus" onclick="deleteCategoryToProduct(${category.id}, ${menuId}, this)"></i>
+        </div>
+      `;
+      categoriesContainer.appendChild(categoryCard);
+}});
+          document.getElementById('categoriesRow').style.display = 'flex';
+      })
+      .catch(error => console.error('Error fetching categories:', error));
+  })
+  .catch(error => console.error('Error:', error));
+}
+
+function loadCategoriesEdit(menuId) {
+
+  fetch('http://localhost:8088/api/v1/admin/category/categories', {
+      headers: {
+          "Authorization": `Bearer ${token}`
+      }
+  })
+  .then(response => response.json())
+  .then(categories => {
+      return fetch(`http://localhost:8088/api/v1/admin/all-categories-for-menu/${menuId}`, {
+          headers: {
+              "Authorization": `Bearer ${token}`
+          }
+      }).then(response => response.json())
+      .then(menusCategories => {
+          const categoriesContainer = document.getElementById('categoriesContainer2');
+          if (!categoriesContainer) {
+              throw new Error('Categories container edit element not found');
+          }
+
+          categoriesContainer.innerHTML = ''; 
+
+          const selectedCategoryIds = new Set(menusCategories.map(cat => cat.categoryDto.id));
+
+          categories.forEach(category => {
+              const isCategorySelected = selectedCategoryIds.has(category.id);
+              const categoryCard = document.createElement('div');
+              categoryCard.className = 'card m-2 p-2';
+              categoryCard.style.width = '150px';
+              categoryCard.style.cursor = 'pointer';
+              categoryCard.style.backgroundColor = isCategorySelected ? 'red' : 'green'; // Selected category is red, others are green
+              categoryCard.style.color = 'white';
+
+              if(!isCategorySelected) {
+              categoryCard.innerHTML = `
+              <div class="d-flex justify-content-between align-items-center">
+                <span>${category.name}</span>
+                <i class="material-icons" onclick="addCategoryToProduct(${category.id}, ${menuId}, this)">add</i>
+              </div>
+            `;
+            categoriesContainer.appendChild(categoryCard);
+      }
+    
+      if(isCategorySelected) {
+        categoryCard.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center">
+          <span>${category.name}</span>
+          <i class="fa-solid fa-minus" onclick="deleteCategoryToProduct(${category.id}, ${menuId}, this)"></i>
+        </div>
+      `;
+      categoriesContainer.appendChild(categoryCard);
+}});
+          document.getElementById('categoriesRow2').style.display = 'flex';
+      })
+      .catch(error => console.error('Error fetching categories:', error));
+  })
+  .catch(error => console.error('Error:', error));
+}
+
+function addCategoryToProduct(categoryId, menuId, element) {
+
+  fetch(`http://localhost:8088/api/v1/admin/add-category/${menuId}?categoryId=${categoryId}`, {
+      method: 'POST',
+      headers: {
+          "Authorization": `Bearer ${token}`
+      }
+  })  
+  .then(response => {
+      if (response.ok) {
+          showToast("Category added to product");
+
+          const categoryCard = element.closest('.card');
+          if (categoryCard) {
+              categoryCard.style.backgroundColor = 'red';
+              categoryCard.style.color = 'white';
+          }
+      } else {
+          console.error(`Error adding category ${categoryId} to product`);
+      }
+      loadCategoriesEdit(menuId);
+      loadCategories(menuId);
+  })
+  .catch(error => console.error('Error:', error));
+}
+
+function deleteCategoryToProduct(categoryId, menuId, element) {
+
+fetch(`http://localhost:8088/api/v1/admin/delete-category/${menuId}?categoryId=${categoryId}`, {
+  method: 'DELETE',
+  headers: {
+        "Authorization": `Bearer ${token}`
+    }
+})  
+.then(response => {
+    if (response.ok) {
+        showToast("Category deleted to product");
+
+        const categoryCard = element.closest('.card');
+        if (categoryCard) {
+            categoryCard.style.backgroundColor = 'green';
+            categoryCard.style.color = 'white';
+        }
+    } else {
+        console.error(`Error deleting category ${categoryId} to product`);
+    }
+    loadCategoriesEdit(menuId);
+    loadCategories(menuId);
+})
+.catch(error => console.error('Error:', error));
+}
 
 fetchData();

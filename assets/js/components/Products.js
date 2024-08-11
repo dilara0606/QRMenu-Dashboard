@@ -11,7 +11,6 @@ if (!token) {
 }
 
 const decodedToken = jwt_decode(token);
-console.log("Decoded Token:", decodedToken);
 
 const headers = new Headers();
 headers.append("Authorization", `Bearer ${token}`); 
@@ -41,7 +40,6 @@ function injectStyles() {
   })
   .then((response) => response.json())
   .then((data) => {
-  
     const tableBody = document.querySelector("tbody"); // Select the table body
     tableBody.innerHTML = ""; // Clear the table
     
@@ -49,7 +47,6 @@ function injectStyles() {
     function createRow(item) {
       const row = document.createElement("tr");
       row.dataset.id = item.id; // Store item ID in row for later use
-  
       // Add drag handle cell
       const dragHandleCell = document.createElement("td");
       dragHandleCell.className = "drag-handle";
@@ -130,8 +127,7 @@ function injectStyles() {
           document.getElementById('selectedImage').src = item.imageUrl || "";
           document.getElementById('selectedImage').style.display = item.imageUrl ? 'block' : 'none';
           document.getElementById('imageUpload').dataset.itemId = item.id; // Store the item ID for saving later
-  
-          console.log(item.imageUrl);
+          loadCategoriesEdit(item.id);
         }
       });
     });
@@ -159,18 +155,21 @@ function injectStyles() {
     const description = document.getElementById('descriptionInput').value;
     const imageUrl = document.getElementById('selectedImage').src;
     const price = document.getElementById('priceInput').value;
+    
   
     if (id) {
       fetch(`http://localhost:8088/api/v1/admin/item/edit-item/${id}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
           name: name,
           description: description,
           price: price,
-          imageUrl: imageUrl
+          imageUrl: imageUrl,
+         
         })
       })
       .then(response => response.json())
@@ -188,6 +187,10 @@ function injectStyles() {
   function deleteProduct(id) {
     fetch(`http://localhost:8088/api/v1/admin/item/delete-item/${id}`, {
         method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json',
+           "Authorization": `Bearer ${token}`
+      },
     })
     .then((response) => response.text()) // Get response as text
     .then((text) => {
@@ -241,8 +244,9 @@ function injectStyles() {
     
     fetch('http://localhost:8088/api/v1/admin/item/create-item', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
+     headers: {
+          'Content-Type': 'application/json',
+           "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(product)
     })
@@ -253,7 +257,6 @@ function injectStyles() {
       return response.json();
     })
     .then(data => {
-      console.log(data);
       showToast("Product created successfully!");
       loadCategories(data.id);
       fetchData();
@@ -285,42 +288,172 @@ function injectStyles() {
   }
   
   function loadCategories(productId) {
-    fetch('http://localhost:8088/api/v1/admin/category/categories')
-      .then(response => response.json())
-      .then(categories => {
-        var categoriesContainer = document.getElementById('categoriesContainer');
-        categoriesContainer.innerHTML = '';
-        categories.forEach(category => {
-          console.log(category);
-          var categoryCard = document.createElement('div');
-          categoryCard.className = 'card m-2 p-2';
-          categoryCard.style.width = '150px';
-          categoryCard.style.cursor = 'pointer';
+    fetch('http://localhost:8088/api/v1/admin/category/categories', {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
+    .then(response => response.json())
+    .then(categories => {
+        return fetch(`http://localhost:8088/api/v1/admin/all-categories/${productId}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }).then(response => response.json())
+        .then(productCategories => {
+            const categoriesContainer = document.getElementById('categoriesContainer');
+            if (!categoriesContainer) {
+                throw new Error('Categories container edit element not found');
+            }
+  
+            categoriesContainer.innerHTML = ''; 
+  
+            const selectedCategoryIds = new Set(productCategories.map(cat => cat.categoryDto.id));
+  
+            categories.forEach(category => {
+                const isCategorySelected = selectedCategoryIds.has(category.id);
+                const categoryCard = document.createElement('div');
+                categoryCard.className = 'card m-2 p-2';
+                categoryCard.style.width = '150px';
+                categoryCard.style.cursor = 'pointer';
+                categoryCard.style.backgroundColor = isCategorySelected ? 'red' : 'green'; // Selected category is red, others are green
+                categoryCard.style.color = 'white';
+
+                if(!isCategorySelected) {
+                categoryCard.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                  <span>${category.name}</span>
+                  <i class="material-icons" onclick="addCategoryToProduct(${category.id}, ${productId}, this)">add</i>
+                </div>
+              `;
+              categoriesContainer.appendChild(categoryCard);
+        }
+      
+        if(isCategorySelected) {
           categoryCard.innerHTML = `
-            <div class="d-flex justify-content-between align-items-center">
-              <span>${category.name}</span>
-              <i class="material-icons" onclick="addCategoryToProduct(${category.id}, ${productId})">add</i>
-            </div>
-          `;
-          categoriesContainer.appendChild(categoryCard);
-        });
-        document.getElementById('categoriesRow').style.display = 'flex';
-      })
-      .catch(error => console.error('Error fetching categories:', error));
+          <div class="d-flex justify-content-between align-items-center">
+            <span>${category.name}</span>
+            <i class="fa-solid fa-minus" onclick="deleteCategoryToProduct(${category.id}, ${productId}, this)"></i>
+          </div>
+        `;
+        categoriesContainer.appendChild(categoryCard);
+  }});
+            document.getElementById('categoriesRow').style.display = 'flex';
+        })
+        .catch(error => console.error('Error fetching categories:', error));
+    })
+    .catch(error => console.error('Error:', error));
   }
   
-  function addCategoryToProduct(categoryId, productId) {
-    fetch(`http://localhost:8088/api/v1/admin/add-item/${categoryId}?itemId=${productId}`)
-      .then(response => {
-        if (response.ok) {
-          console.log(`Category ${categoryId} added to product`);
-          showToast("Category added to product")
-        } else {
-          console.error(`Error adding category ${categoryId} to product`);
+  function loadCategoriesEdit(productId) {
+  
+    fetch('http://localhost:8088/api/v1/admin/category/categories', {
+        headers: {
+            "Authorization": `Bearer ${token}`
         }
-      })
-      .catch(error => console.error('Error:', error));
+    })
+    .then(response => response.json())
+    .then(categories => {
+        return fetch(`http://localhost:8088/api/v1/admin/all-categories/${productId}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }).then(response => response.json())
+        .then(productCategories => {
+            const categoriesContainer = document.getElementById('categoriesContainer2');
+            if (!categoriesContainer) {
+                throw new Error('Categories container edit element not found');
+            }
+  
+            categoriesContainer.innerHTML = ''; 
+  
+            const selectedCategoryIds = new Set(productCategories.map(cat => cat.categoryDto.id));
+  
+            categories.forEach(category => {
+                const isCategorySelected = selectedCategoryIds.has(category.id);
+                const categoryCard = document.createElement('div');
+                categoryCard.className = 'card m-2 p-2';
+                categoryCard.style.width = '150px';
+                categoryCard.style.cursor = 'pointer';
+                categoryCard.style.backgroundColor = isCategorySelected ? 'red' : 'green'; // Selected category is red, others are green
+                categoryCard.style.color = 'white';
+
+                if(!isCategorySelected) {
+                categoryCard.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                  <span>${category.name}</span>
+                  <i class="material-icons" onclick="addCategoryToProduct(${category.id}, ${productId}, this)">add</i>
+                </div>
+              `;
+              categoriesContainer.appendChild(categoryCard);
+        }
+      
+        if(isCategorySelected) {
+          categoryCard.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center">
+            <span>${category.name}</span>
+            <i class="fa-solid fa-minus" onclick="deleteCategoryToProduct(${category.id}, ${productId}, this)"></i>
+          </div>
+        `;
+        categoriesContainer.appendChild(categoryCard);
+  }});
+            document.getElementById('categoriesRow2').style.display = 'flex';
+        })
+        .catch(error => console.error('Error fetching categories:', error));
+    })
+    .catch(error => console.error('Error:', error));
   }
+
+function addCategoryToProduct(categoryId, productId, element) {
+
+    fetch(`http://localhost:8088/api/v1/admin/add-item/${categoryId}?itemId=${productId}`, {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })  
+    .then(response => {
+        if (response.ok) {
+            showToast("Category added to product");
+
+            const categoryCard = element.closest('.card');
+            if (categoryCard) {
+                categoryCard.style.backgroundColor = 'red';
+                categoryCard.style.color = 'white';
+            }
+        } else {
+            console.error(`Error adding category ${categoryId} to product`);
+        }
+        loadCategoriesEdit(productId);
+        loadCategories(productId);
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function deleteCategoryToProduct(categoryId, productId, element) {
+
+  fetch(`http://localhost:8088/api/v1/admin/delete-item/${categoryId}?itemId=${productId}`, {
+    method: 'DELETE',
+    headers: {
+          "Authorization": `Bearer ${token}`
+      }
+  })  
+  .then(response => {
+      if (response.ok) {
+          showToast("Category deleted to product");
+
+          const categoryCard = element.closest('.card');
+          if (categoryCard) {
+              categoryCard.style.backgroundColor = 'green';
+              categoryCard.style.color = 'white';
+          }
+      } else {
+          console.error(`Error deleting category ${categoryId} to product`);
+      }
+      loadCategoriesEdit(productId);
+      loadCategories(productId);
+  })
+  .catch(error => console.error('Error:', error));
+}
 
   function logOut() {
     localStorage.removeItem('token');
@@ -341,4 +474,4 @@ window.onload = function() {
   checkAuthentication();
 };
 
-  fetchData();
+fetchData();
