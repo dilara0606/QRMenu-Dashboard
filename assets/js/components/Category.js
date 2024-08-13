@@ -150,7 +150,8 @@ function injectStyles() {
       fetch(`http://localhost:8088/api/v1/admin/category/edit-category/${id}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
           name: name,
@@ -173,6 +174,7 @@ function injectStyles() {
   function deleteCategory(id) {
     fetch(`http://localhost:8088/api/v1/admin/category/delete-category/${id}`, {
         method: "DELETE",
+        headers: headers
     })
     .then((response) => response.text()) // Get response as text
     .then((text) => {
@@ -224,7 +226,8 @@ function injectStyles() {
   fetch('http://localhost:8088/api/v1/admin/category/create-category', {
       method: 'POST',
       headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(category)
   })
@@ -256,15 +259,20 @@ function injectStyles() {
     document.getElementById("log-out").addEventListener("click", logOut);
   });
 
-function checkAuthentication() {
-  if (!token) {
-      // window.location.href = 'http://127.0.0.1:5500/pages/sign-in.html'; 
-      console.log('no authentication')
+  function checkAuthentication() {
+    const token = getToken();
+    if (!token) {
+        window.location.href = 'http://127.0.0.1:5500/pages/sign-in.html';
+    }
   }
-}
-
-window.onload = function() {
-  checkAuthentication();
-};
+  
+  window.onload = function() {
+    checkAuthentication();
+    history.pushState(null, null, location.href);
+  };
+  
+  window.onpopstate = function(event) {
+    checkAuthentication();
+  };
 
 fetchData();

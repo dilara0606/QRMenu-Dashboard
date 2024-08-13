@@ -59,17 +59,22 @@ function logOut() {
     document.getElementById("log-out").addEventListener("click", logOut);
   });
 
-function checkAuthentication() {
-  if (!token) {
-      // window.location.href = 'http://127.0.0.1:5500/pages/sign-in.html'; 
-      console.log('no authentication')
+  function checkAuthentication() {
+    const token = getToken();
+    if (!token) {
+        window.location.href = 'http://127.0.0.1:5500/pages/sign-in.html';
+    }
   }
-}
-
-window.onload = function() {
-  checkAuthentication();
-};
-
+  
+  window.onload = function() {
+    checkAuthentication();
+    history.pushState(null, null, location.href);
+  };
+  
+  window.onpopstate = function(event) {
+    checkAuthentication();
+  };
+  
 function togglePasswordVisibility(event) {
     const button = event.currentTarget; // Buton elementi
     const input = button.previousElementSibling; // İlgili input elemanı

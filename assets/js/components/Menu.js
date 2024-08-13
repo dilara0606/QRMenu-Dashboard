@@ -194,9 +194,7 @@ document.querySelector('button[type="submit"]').addEventListener('click', () => 
 function deleteMenu(id) {
   fetch(`http://localhost:8088/api/v1/admin/menu/delete-menu/${id}`, {
       method: "DELETE",
-      headers: {
-        "Authorization": `Bearer ${token}`
-    }
+      headers: headers
   })
   .then((response) => response.text()) // Get response as text
   .then((text) => {
@@ -287,7 +285,8 @@ const rows = document.querySelectorAll('tbody tr');
 const topRowId = rows[0].dataset.id; // En üst satırın ID'si
 
 fetch(`http://localhost:8088/api/v1/admin/menu/activate-menu/${topRowId}`, {
-    method: 'GET'
+    method: 'GET',
+    headers: headers
 })
 .then(response => {
     if (!response.ok) {
@@ -364,14 +363,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function checkAuthentication() {
-if (!token) {
-    window.location.href = 'http://127.0.0.1:5500/pages/sign-in.html';
-    console.log('no authentication') 
-}
+  if (!token) {
+      window.location.href = 'http://127.0.0.1:5500/pages/sign-in.html';
+  }
 }
 
 window.onload = function() {
-checkAuthentication();
+  checkAuthentication();
+  history.pushState(null, null, location.href);
+};
+
+window.onpopstate = function(event) {
+  checkAuthentication();
 };
 
 function loadCategories(menuId) {

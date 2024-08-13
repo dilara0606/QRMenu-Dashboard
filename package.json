@@ -2,7 +2,7 @@
   "name": "material-dashboard",
   "version": "3.1.0",
   "description": "Freebie Dashboard for Bootstrap 5",
-  "main": "pages/dashboard.html",
+  "main": "pages/sign-up.html",
   "directories": {
     "example": "root"
   },

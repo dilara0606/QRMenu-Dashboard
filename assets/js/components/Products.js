@@ -463,15 +463,20 @@ function deleteCategoryToProduct(categoryId, productId, element) {
     document.getElementById("log-out").addEventListener("click", logOut);
   });
 
-function checkAuthentication() {
-  const token = getToken();
-  if (!token) {
-      window.location.href = 'http://127.0.0.1:5500/pages/sign-in.html'; 
+  function checkAuthentication() {
+    const token = getToken();
+    if (!token) {
+        window.location.href = 'http://127.0.0.1:5500/pages/sign-in.html';
+    }
   }
-}
-
-window.onload = function() {
-  checkAuthentication();
-};
-
+  
+  window.onload = function() {
+    checkAuthentication();
+    history.pushState(null, null, location.href);
+  };
+  
+  window.onpopstate = function(event) {
+    checkAuthentication();
+  };
+  
 fetchData();

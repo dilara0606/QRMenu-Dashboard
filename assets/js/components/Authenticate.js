@@ -228,3 +228,4 @@ function activateAccount() {
     passwordField.type = type;
 
 };
+
