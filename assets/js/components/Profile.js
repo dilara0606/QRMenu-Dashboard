@@ -7,6 +7,8 @@ function getToken() {
   const headers = new Headers();
   headers.append("Authorization", `Bearer ${token}`); 
 
+  let restaurantId = null;
+
   function fetchUserInfo() {
     if (!token) {
       console.error("No token found");
@@ -91,7 +93,6 @@ function togglePasswordVisibility(event) {
     }
 }
 
-// Tüm butonlara olay işleyiciyi ekleyin
 document.querySelectorAll('.toggle-btn').forEach(button => {
     button.addEventListener('click', togglePasswordVisibility);
 });
@@ -137,8 +138,8 @@ document.getElementById('edit-profile-btn').addEventListener('click', () => {
     const fullName = document.getElementById('full-name').innerText;
     const nameParts = fullName.split(" ");
     
-    let name = ""; // `let` kullanın, çünkü değeri değişebilir
-    let surname = ""; // `let` kullanın, çünkü değeri değişebilir
+    let name = ""; 
+    let surname = "";
     
     if (nameParts.length > 1) {
         name = nameParts[0];
@@ -195,4 +196,92 @@ document.getElementById('profile-form').addEventListener('submit', async (event)
         console.error('Fetch error:', error);
         alert('An error occurred while updating the profile');
     }
+});
+
+function fetchRestaurantInfo() {
+  if (!token) {
+    console.error("No token found");
+    return;
+  }
+
+  fetch("http://localhost:8088/api/v1/admin/restaurant/info", {
+    method: "GET",
+    headers: headers
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json(); 
+  })
+  .then(data => {
+    const restaurant = data[0];
+    restaurantId = restaurant.id;
+    document.getElementById("restaurant-name").textContent = restaurant.name || "Not Available";
+    document.getElementById("restaurant-phone").textContent = restaurant.phone || "Not Available";
+    document.getElementById("restaurant-email").textContent = restaurant.email || "Not Available";
+    document.getElementById("restaurant-address").textContent = restaurant.address || "Not Available";
+
+    const imageUrl = restaurant.imageUrl;
+    const pageHeader = document.getElementById("page-header");
+    pageHeader.style.backgroundImage = `url('${imageUrl}')`;
+
+  })
+  .catch(error => {
+    console.error("Error fetching user info:", error);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", fetchRestaurantInfo);
+
+document.getElementById('edit-restaurant-btn').addEventListener('click', () => {
+  const editRestaurantModal = new bootstrap.Modal(document.getElementById('editRestaurantModal'));
+  editRestaurantModal.show();    
+
+  document.getElementById('new-restaurant-name').value = document.getElementById('restaurant-name').innerText;
+  document.getElementById('new-restaurant-address').value = document.getElementById('restaurant-address').innerText;
+  document.getElementById('new-restaurant-phone').value = document.getElementById('restaurant-phone').innerText;
+  document.getElementById('new-restaurant-email').value = document.getElementById('restaurant-email').innerText;
+});
+
+document.getElementById('restaurant-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  if (!token) {
+      alert('No token found');
+      return;
+  }
+
+  const restaurantData = {
+      name: document.getElementById('new-restaurant-name').value,
+      address: document.getElementById('new-restaurant-address').value,
+      phone: document.getElementById('new-restaurant-phone').value,
+      email: document.getElementById('new-restaurant-email').value,
+  };
+
+  try {
+      const id = restaurantId;
+      const response = await fetch(`http://localhost:8088/api/v1/admin/restaurant/edit-restaurant/${id}`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(restaurantData)
+      });
+
+      if (response.ok) {
+          const data = await response.json();
+          console.log('Restaurant updated successfully:', data);
+          const editRestaurantModal = bootstrap.Modal.getInstance(document.getElementById('editRestaurantModal'));
+          editRestaurantModal.hide();
+          fetchRestaurantInfo();
+      } else {
+          const error = await response.text();
+          alert(`Error: ${error}`);
+      }
+  } catch (error) {
+      console.error('Fetch error:', error);
+      alert('An error occurred while updating the restaurant');
+  }
 });

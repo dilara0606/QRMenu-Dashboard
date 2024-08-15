@@ -196,9 +196,27 @@ function deleteMenu(id) {
       method: "DELETE",
       headers: headers
   })
-  .then((response) => response.text()) // Get response as text
+  .then((response) => {
+      if (!response.ok) {
+          // Convert the response to JSON if possible
+          return response.text().then((text) => {
+              let errorMessage;
+              try {
+                  // Try to parse JSON response
+                  const errorData = JSON.parse(text);
+                  errorMessage = errorData.businessExceptionDescription || errorData.error;
+              } catch (e) {
+                  // Fallback in case the response isn't JSON
+                  errorMessage = text;
+              }
+              throw new Error(errorMessage);
+          });
+      }
+      return response.text();
+  })
   .then((text) => {
-      if (text.trim() === "Menu deleted successfully") { // Check the response
+      text = text.trim(); // Ensure trimming to avoid whitespace issues
+      if (text === "Menu deleted successfully") {
           showToast('Menu deleted successfully!');
           fetchData(); 
       } else {
@@ -206,8 +224,8 @@ function deleteMenu(id) {
       }
   })
   .catch((error) => {
+      showToast(error.message); // Show the error message
       console.error("Error deleting menu:", error);
-      showToast('An error occurred while deleting the menu.');
   });
 }
 
