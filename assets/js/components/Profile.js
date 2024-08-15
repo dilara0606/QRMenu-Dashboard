@@ -118,7 +118,7 @@ document.getElementById('password-form').addEventListener('submit', async (event
         });
 
         if (response.ok) {
-            alert('Password updated successfully');
+            showToast('Password updated successfully');
             document.getElementById('password-form').reset();
         } else {
             const error = await response.text();
@@ -188,6 +188,7 @@ document.getElementById('profile-form').addEventListener('submit', async (event)
             alert('Profile updated successfully');
             const editProfileModal = bootstrap.Modal.getInstance(document.getElementById('editProfileModal'));
             editProfileModal.hide();
+            showToast('Profile updated successfully');
         } else {
             const error = await response.text();
             alert(`Error: ${error}`);
@@ -276,6 +277,7 @@ document.getElementById('restaurant-form').addEventListener('submit', async (eve
           const editRestaurantModal = bootstrap.Modal.getInstance(document.getElementById('editRestaurantModal'));
           editRestaurantModal.hide();
           fetchRestaurantInfo();
+          showToast("Restaurant updated successfully")
       } else {
           const error = await response.text();
           alert(`Error: ${error}`);
@@ -285,3 +287,37 @@ document.getElementById('restaurant-form').addEventListener('submit', async (eve
       alert('An error occurred while updating the restaurant');
   }
 });
+
+async function showToast(message) {
+  const title = 'Profile Notification'; 
+  const createdAt = new Date().toISOString();
+
+  try {
+    // Save notification to the database
+    await fetch('http://localhost:8088/api/v1/admin/notification/create-notification', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+       },
+      body: JSON.stringify({
+        title: title,
+        content: message,
+      })
+    });
+
+    // Display the toast
+    const toastEl = document.getElementById('successToast');
+    const toastBody = toastEl.querySelector('.toast-body');
+    const toastHeaderSpan = toastEl.querySelector('.toast-header .me-auto');
+    const toastHeaderSmall = toastEl.querySelector('.toast-header small');
+
+    toastBody.textContent = message;
+    toastHeaderSpan.textContent = title;
+    toastHeaderSmall.textContent = createdAt;
+
+    const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+    toast.show();
+  } catch (error) {
+    console.error('Error saving or showing toast:', error);
+  }
+}

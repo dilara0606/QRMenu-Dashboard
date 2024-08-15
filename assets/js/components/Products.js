@@ -148,7 +148,6 @@ function injectStyles() {
   });
   }
   
-  // Save button event listener
   document.querySelector('button[type="submit"]').addEventListener('click', () => {
     const id = document.getElementById('imageUpload').dataset.itemId;
     const name = document.getElementById('nameInput').value;
@@ -176,7 +175,7 @@ function injectStyles() {
       .then(data => {
         fetchData();
         document.getElementById('editRow').style.display = 'none';
-        showToast("Product Update Successful!") // Refresh the table with updated data
+        showToast("Product "+name+" Update Successful!")
       })
       .catch(error => {
         console.error("Error updating product:", error);
@@ -207,21 +206,38 @@ function injectStyles() {
     });
   }
   
-  function showToast(message) {
-    const toastEl = document.getElementById('successToast');
-    const toastBody = toastEl.querySelector('.toast-body');
-    const toastHeaderSpan = toastEl.querySelector('.toast-header .me-auto');
-    const toastHeaderSmall = toastEl.querySelector('.toast-header small');
+  async function showToast(message) {
+    const title = 'Product Notification'; 
+    const createdAt = new Date().toISOString();
   
-    toastBody.textContent = message;
-    toastHeaderSpan.textContent = 'Notification'; // Customize as needed
-    toastHeaderSmall.textContent = 'Just now'; // Customize as needed
+    try {
+      // Save notification to the database
+      await fetch('http://localhost:8088/api/v1/admin/notification/create-notification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+         },
+        body: JSON.stringify({
+          title: title,
+          content: message,
+        })
+      });
   
-    // Show the toast
-    const toast = new bootstrap.Toast(toastEl, {
-        delay: 4000 // 3 seconds
-    });
-    toast.show();
+      // Display the toast
+      const toastEl = document.getElementById('successToast');
+      const toastBody = toastEl.querySelector('.toast-body');
+      const toastHeaderSpan = toastEl.querySelector('.toast-header .me-auto');
+      const toastHeaderSmall = toastEl.querySelector('.toast-header small');
+  
+      toastBody.textContent = message;
+      toastHeaderSpan.textContent = title;
+      toastHeaderSmall.textContent = createdAt;
+  
+      const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+      toast.show();
+    } catch (error) {
+      console.error('Error saving or showing toast:', error);
+    }
   }
   
   function createProduct() {
@@ -257,7 +273,7 @@ function injectStyles() {
       return response.json();
     })
     .then(data => {
-      showToast("Product created successfully!");
+      showToast("Product "+name+" created successfully!");
       loadCategories(data.id);
       fetchData();
     })
