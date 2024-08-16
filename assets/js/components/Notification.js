@@ -56,20 +56,42 @@ function getToken() {
   
         alertDiv.className = `alert ${alertClass} alert-dismissible text-white`;
         alertDiv.setAttribute('role', 'alert');
+
+        // Determine the icon based on the notification title
+        let imgsource = '../assets/img/default_icon.png';
+        if (notification.title.toLowerCase().includes('menu')) {
+          imgsource = '../assets/img/menu_icon.png';
+        } else if (notification.title.toLowerCase().includes('category')) {
+          imgsource = '../assets/img/category_icon.jpeg';
+        } else if (notification.title.toLowerCase().includes('product')) {
+          imgsource = '../assets/img/product_icon.png';
+        } else if (notification.title.toLowerCase().includes('profile')) {
+          imgsource = '../assets/img/profile_icon.png';
+        }
+  
+        // Determine the icon based on the notification title or type
+        let icon = `<img src="${imgsource}" class="avatar avatar-md me-3">`;
   
         // Format the createdAt date
         const notificationDate = new Date(notification.createdAt).toLocaleString();
   
         alertDiv.innerHTML = `
-          <strong>${notification.title}</strong>
-          <div class="d-flex justify-content-between">
-            <p class="mb-1">${notification.content}</p>
-            <small>${notificationDate}</small>
+        <div class="d-flex align-items-center">
+          <div class="me-3">
+            ${icon}
           </div>
-          <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+          <div class="flex-grow-1">
+            <strong>${notification.title}</strong>
+            <div class="d-flex justify-content-between align-items-center">
+              <p class="mb-1 me-3">${notification.content}</p>
+              <small class="text-end">${notificationDate}</small>
+            </div>
+          </div>
+          <button type="button" class="btn-close text-lg py-3 opacity-10 ms-auto" data-bs-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        `;
+        </div>
+      `;
   
         container.appendChild(alertDiv);
       });
@@ -110,10 +132,20 @@ function getToken() {
         const li = document.createElement('li');
         li.classList.add('mb-2');
   
-        // Determine the icon based on the notification title or type
-        let icon = `<img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3 ">`;
+        let imgsource = '../assets/img/default_icon.png';
+        if (notification.title.toLowerCase().includes('menu')) {
+          imgsource = '../assets/img/menu_icon.png';
+        } else if (notification.title.toLowerCase().includes('category')) {
+          imgsource = '../assets/img/category_icon.jpeg';
+        } else if (notification.title.toLowerCase().includes('product')) {
+          imgsource = '../assets/img/product_icon.png';
+        } else if (notification.title.toLowerCase().includes('profile')) {
+          imgsource = '../assets/img/profile_icon.png';
+        }
+  
+        let icon = `<img src="${imgsource}" class="avatar avatar-sm me-3">`;
         if (notification.title.toLowerCase().includes('album')) {
-          icon = `<img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark me-3 ">`;
+          icon = `<img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark me-3">`;
         } else if (notification.title.toLowerCase().includes('payment')) {
           icon = `<div class="avatar avatar-sm bg-gradient-secondary me-3 my-auto">
                     <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -144,8 +176,8 @@ function getToken() {
                 </h6>
                 <div class="d-flex justify-content-between">
                   <p class="text-xs text-secondary mb-0">${notification.content}</p>
-                  <small>${new Date(notification.createdAt).toLocaleString()}</small>
                 </div>
+                <small>${new Date(notification.createdAt).toLocaleString()}</small>
               </div>
             </div>
           </a>
@@ -158,6 +190,5 @@ function getToken() {
     }
   }
   
-  document.addEventListener('DOMContentLoaded', fetchNotifications);
   document.addEventListener('DOMContentLoaded', fetchDropDownNotifications);
   

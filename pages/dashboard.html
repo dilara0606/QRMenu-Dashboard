@@ -261,6 +261,12 @@
                 </li>
               </ul>
             </li>
+            <li class="nav-item d-flex align-items-center">
+              <a href="../pages/profile.html" class="nav-link text-body font-weight-bold px-0">
+                <i class="fa fa-user me-sm-1"></i>
+                <span class="d-sm-inline d-none"></span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -278,13 +284,19 @@
             </div>
             <div class="card-body px-0 pb-2">
               <div class="buttons">
-                <button class="btn btn-primary mt-2" onclick="setSize('phone')">Phone Size</button>
-                <button class="btn btn-primary mt-2" onclick="setSize('tablet')">Tablet Size</button>
-                <button class="btn btn-primary mt-2" onclick="setSize('desktop')">Computer Size</button>
-                <input type="number" id="widthInput" placeholder="Width (px)">
-                <input type="number" id="heightInput" placeholder="Height (px)">
-                <button class="btn btn-primary mt-2" onclick="setCustomSize()">Apply</button>
-            </div>
+                  <button class="btn btn-primary mt-2" onclick="setSize('phone')">Phone Size</button>
+                  <button class="btn btn-primary mt-2" onclick="setSize('tablet')">Tablet Size</button>
+                  <button class="btn btn-primary mt-2" onclick="setSize('desktop')">Computer Size</button>
+                  <div class="form-group mt-2">
+                      <input type="number" class="form-control" id="widthInput" placeholder="Width (px)">
+                  </div>
+                  <div class="form-group mt-2">
+                      <input type="number" class="form-control" id="heightInput" placeholder="Height (px)">
+                  </div>
+                  <button class="btn btn-primary mt-2" onclick="setCustomSize()">Apply</button>
+              </div>
+          </div>
+          
           </div>
             <div class="card-body px-0 pb-2">
               <iframe id="livePreview" src="http://127.0.0.1:3000" width="100%" height="600px" style="border: 1px;; overflow:hidden;"></iframe>
