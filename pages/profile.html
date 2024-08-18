@@ -47,32 +47,47 @@
         }
 
         .form-control {
-            border: 1px solid #ccc; /* Hafif gri kenarlık */
-            border-radius: 4px; /* Hafif yuvarlatılmış köşeler */
-            padding-right: 40px; /* Sağda buton için alan bırak */
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            padding-right: 40px;
         }
 
         .toggle-btn {
             position: absolute;
-            right: 10px; /* Sağ kenardan 10px uzaklıkta */
+            right: 10px;
             top: 50%;
-            transform: translateY(-50%); /* Dikey ortalama */
+            transform: translateY(-50%);
             border: none;
             background: transparent;
             cursor: pointer;
-            z-index: 1; /* Butonun input'un üstünde görünmesini sağlar */
+            z-index: 1;
         }
 
         .toggle-btn i {
-            color: #888; /* Buton simgesi rengi */
+            color: #888; 
         }
 
         .form-control:focus {
-            border-color: #888; /* Odaklandığında biraz daha belirgin gri */
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Hafif bir gölge */
+            border-color: #888; 
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
         }
 
-      
+        #removeImage {
+  position: absolute; 
+  top: 10px;
+  right: 10px; 
+  background: transparent;
+  border: none; 
+  color: black; 
+  font-size: 24px; 
+  cursor: pointer; 
+  z-index: 10; 
+}
+
+#imagePreview {
+  position: relative;
+}
+    
 </style>
   
 </head>
@@ -83,7 +98,7 @@
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
         <img src="../assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold text-white">Restaurant A</span>
+        <span class="ms-1 font-weight-bold text-white">DODO Restaurant</span>
       </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
@@ -141,7 +156,7 @@
           </a>
         </li> 
         <li class="nav-item">
-          <a class="nav-link text-white " href="../pages/sign-up.html" id="log-out">
+          <a class="nav-link text-white " href="../pages/sign-in.html" id="log-out">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">assignment</i>
             </div>
@@ -271,279 +286,295 @@
       <div id="page-header" class="page-header min-height-300 border-radius-xl mt-4">
         <span class="mask bg-gradient-primary opacity-1"></span>
       </div>
-      <div class="card card-body mx-3 mx-md-4 mt-n6">
-        <div class="row gx-4 mb-2">
-          <div class="col-auto">
-          </div>
-          <div class="col-auto my-auto">
-            <div class="h-100">
-              <h5 class="mb-1">
-                
-              </h5>
-              <p class="mb-0 font-weight-normal text-sm">
-                
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-            <div class="nav-wrapper position-relative end-0">
-              <ul class="nav nav-pills nav-fill p-1" role="tablist">
-                <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
-                    <i class="material-icons text-lg position-relative">home</i>
-                    <span class="ms-1">App</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                    <i class="material-icons text-lg position-relative">email</i>
-                    <span class="ms-1">Messages</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                    <i class="material-icons text-lg position-relative">settings</i>
-                    <span class="ms-1">Settings</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
+    <div class="card card-body mx-3 mx-md-4 mt-n6 card-center">
+      <div class="row gx-4 mb-2">
+        <div class="col-auto">
+        </div>
+        <div class="col-auto my-auto">
+          <div class="h-100">
+            <h5 class="mb-1">
+            </h5>
+            <p class="mb-0 font-weight-normal text-sm">
+            </p>
           </div>
         </div>
+        <!-- <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+          <div class="nav-wrapper position-relative end-0">
+            <ul class="nav nav-pills nav-fill p-1" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
+                  <i class="material-icons text-lg position-relative">home</i>
+                  <span class="ms-1">App</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+                  <i class="material-icons text-lg position-relative">email</i>
+                  <span class="ms-1">Messages</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+                  <i class="material-icons text-lg position-relative">settings</i>
+                  <span class="ms-1">Settings</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div> -->
+      </div>
+      <div class="row">
+        <div class="row d-flex justify-content-center">
+          <!-- <div class="col-12 col-xl-4">
+            <div class="card card-plain h-100">
+              <div class="card-header pb-0 p-3">
+                <h6 class="mb-0">Platform Settings</h6>
+              </div>
+              <div class="card-body p-3">
+                <h6 class="text-uppercase text-body text-xs font-weight-bolder">Account</h6>
+                <ul class="list-group">
+                  <li class="list-group-item border-0 px-0">
+                    <div class="form-check form-switch ps-0">
+                      <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
+                      <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">Email me when someone follows me</label>
+                    </div>
+                  </li>
+                  <li class="list-group-item border-0 px-0">
+                    <div class="form-check form-switch ps-0">
+                      <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault1">
+                      <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault1">Email me when someone answers on my post</label>
+                    </div>
+                  </li>
+                  <li class="list-group-item border-0 px-0">
+                    <div class="form-check form-switch ps-0">
+                      <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault2" checked>
+                      <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault2">Email me when someone mentions me</label>
+                    </div>
+                  </li>
+                </ul>
+                <h6 class="text-uppercase text-body text-xs font-weight-bolder mt-4">Application</h6>
+                <ul class="list-group">
+                  <li class="list-group-item border-0 px-0">
+                    <div class="form-check form-switch ps-0">
+                      <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault3">
+                      <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault3">New launches and projects</label>
+                    </div>
+                  </li>
+                  <li class="list-group-item border-0 px-0">
+                    <div class="form-check form-switch ps-0">
+                      <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault4" checked>
+                      <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault4">Monthly product updates</label>
+                    </div>
+                  </li>
+                  <li class="list-group-item border-0 px-0 pb-0">
+                    <div class="form-check form-switch ps-0">
+                      <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault5">
+                      <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault5">Subscribe to newsletter</label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div> -->
+          <div class="col-12 col-xl-6">
+            <div class="card card-plain h-100">
+              <div class="card-header pb-0 p-3" >
+                <div class="row">
+                  <div class="col-md-8 d-flex align-items-center">
+                    <h6 class="mb-0">Profile Information</h6>
+                  </div>
+
+                  <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <form id="profile-form">
+                            <div class="mb-3">
+                              <label for="name" class="form-label">Name</label>
+                              <input type="text" class="form-control" id="new-name" required>
+                            </div>
+                            <div class="mb-3">
+                              <label for="surname" class="form-label">Surname</label>
+                              <input type="text" class="form-control" id="new-surname" required>
+                            </div>
+                            <div class="mb-3">
+                              <label for="email" class="form-label">Email</label>
+                              <input type="email" class="form-control" id="new-email" required>
+                            </div>
+                            <div class="mb-3">
+                              <label for="phone" class="form-label">Phone</label>
+                              <input type="tel" class="form-control" id="new-phone" required>
+                            </div>
+                            <div class="mb-3">
+                              <label for="location" class="form-label">Location</label>
+                              <input type="text" class="form-control" id="new-location" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-4 text-end">
+                    <a href="javascript:;" id="edit-profile-btn">
+                      <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body p-3">
+                <ul class="list-group">
+                  <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp; <span id="full-name">Loading...</span></li>
+                  <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Mobile:</strong> &nbsp; <span id="mobile">Loading...</span></li>
+                  <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; <span id="email">Loading...</span></li>
+                  <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Location:</strong> &nbsp; <span id="location">Loading...</span></li>
+                  <li class="list-group-item border-0 ps-0 pb-0">
+                    <strong class="text-dark text-sm">Social:</strong> &nbsp;
+                    <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                      <i class="fab fa-facebook fa-lg"></i>
+                    </a>
+                    <a class="btn btn-twitter btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                      <i class="fab fa-twitter fa-lg"></i>
+                    </a>
+                    <a class="btn btn-instagram btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                      <i class="fab fa-instagram fa-lg"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>                
+            </div>
+          </div>
+
+          <div class="col-12 col-xl-6">
+            <div class="card card-plain h-100">
+              <div class="card-header pb-0 p-3">
+                <div class="row">
+                  <div class="col-md-8 d-flex align-items-center">
+                    <h6 class="mb-0">Restaurant Information</h6>
+                  </div>
+
+                  <div class="modal fade" id="editRestaurantModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="editProfileModalLabel">Edit Restaurant</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <form id="restaurant-form">
+                            <div class="mb-3">
+                              <label for="restaurant-name" class="form-label">Name</label>
+                              <input type="text" class="form-control" id="new-restaurant-name" required>
+                            </div>
+                            <div class="mb-3">
+                              <label for="restaurant-address" class="form-label">Address</label>
+                              <input type="text" class="form-control" id="new-restaurant-address" required>
+                            </div>
+                            <div class="mb-3">
+                              <label for="restaurant-phone" class="form-label">Phone</label>
+                              <input type="tel" class="form-control" id="new-restaurant-phone" required>
+                            </div>
+                            <div class="mb-3">
+                              <label for="restaurant-email" class="form-label">Email</label>
+                              <input type="email" class="form-control" id="new-restaurant-email" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Restaurant</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-4 text-end">
+                    <a href="javascript:;" id="edit-restaurant-btn">
+                      <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Restaurant"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body p-3">
+                <ul class="list-group">
+                  <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Name:</strong> &nbsp; <span id="restaurant-name">Loading...</span></li>
+                  <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Mobile:</strong> &nbsp; <span id="restaurant-phone">Loading...</span></li>
+                  <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; <span id="restaurant-email">Loading...</span></li>
+                  <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Address:</strong> &nbsp; <span id="restaurant-address">Loading...</span></li>
+                  <li class="list-group-item border-0 ps-0 pb-0">
+                    <strong class="text-dark text-sm">Social:</strong> &nbsp;
+                    <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                      <i class="fab fa-facebook fa-lg"></i>
+                    </a>
+                    <a class="btn btn-twitter btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                      <i class="fab fa-twitter fa-lg"></i>
+                    </a>
+                    <a class="btn btn-instagram btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                      <i class="fab fa-instagram fa-lg"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>                
+            </div>
+          </div>           
+        </div>
+
         <div class="row">
-          <div class="row d-flex justify-content-center">
-            <!-- <div class="col-12 col-xl-4">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <h6 class="mb-0">Platform Settings</h6>
-                </div>
-                <div class="card-body p-3">
-                  <h6 class="text-uppercase text-body text-xs font-weight-bolder">Account</h6>
-                  <ul class="list-group">
-                    <li class="list-group-item border-0 px-0">
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
-                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">Email me when someone follows me</label>
-                      </div>
-                    </li>
-                    <li class="list-group-item border-0 px-0">
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault1">
-                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault1">Email me when someone answers on my post</label>
-                      </div>
-                    </li>
-                    <li class="list-group-item border-0 px-0">
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault2" checked>
-                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault2">Email me when someone mentions me</label>
-                      </div>
-                    </li>
-                  </ul>
-                  <h6 class="text-uppercase text-body text-xs font-weight-bolder mt-4">Application</h6>
-                  <ul class="list-group">
-                    <li class="list-group-item border-0 px-0">
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault3">
-                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault3">New launches and projects</label>
-                      </div>
-                    </li>
-                    <li class="list-group-item border-0 px-0">
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault4" checked>
-                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault4">Monthly product updates</label>
-                      </div>
-                    </li>
-                    <li class="list-group-item border-0 px-0 pb-0">
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault5">
-                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault5">Subscribe to newsletter</label>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+          <div class="col-12 col-xl-6">
+            <div class="card card-plain h-100">
+              <div class="card-header pb-0 p-3">
+                <h6 class="mb-0">Change Password</h6>
               </div>
-            </div> -->
-            <div class="col-12 col-xl-6">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <div class="row">
-                    <div class="col-md-8 d-flex align-items-center">
-                      <h6 class="mb-0">Profile Information</h6>
-                    </div>
-
-                    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <form id="profile-form">
-                              <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="new-name" required>
-                              </div>
-                              <div class="mb-3">
-                                <label for="surname" class="form-label">Surname</label>
-                                <input type="text" class="form-control" id="new-surname" required>
-                              </div>
-                              <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="new-email" required>
-                              </div>
-                              <div class="mb-3">
-                                <label for="phone" class="form-label">Phone</label>
-                                <input type="tel" class="form-control" id="new-phone" required>
-                              </div>
-                              <div class="mb-3">
-                                <label for="location" class="form-label">Location</label>
-                                <input type="text" class="form-control" id="new-location" required>
-                              </div>
-                              <button type="submit" class="btn btn-primary">Update Profile</button>
-                            </form>
-                          </div>
-                        </div>
+              <div class="card-body p-3">
+                <form id="password-form">
+                  <div class="mb-3">
+                      <label for="new-password" class="form-label">New Password</label>
+                      <div class="input-group">
+                          <input type="password" id="new-password" class="form-control">
+                          <button class="toggle-btn" type="button">
+                              <i class="fas fa-eye"></i>
+                          </button>
                       </div>
-                    </div>
-
-                    <div class="col-xl-4 text-end">
-                      <a href="javascript:;" id="edit-profile-btn">
-                        <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
-                      </a>
-                    </div>
                   </div>
-                </div>
-                <div class="card-body p-3">
-                  <ul class="list-group">
-                    <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp; <span id="full-name">Loading...</span></li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Mobile:</strong> &nbsp; <span id="mobile">Loading...</span></li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; <span id="email">Loading...</span></li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Location:</strong> &nbsp; <span id="location">Loading...</span></li>
-                    <li class="list-group-item border-0 ps-0 pb-0">
-                      <strong class="text-dark text-sm">Social:</strong> &nbsp;
-                      <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
-                        <i class="fab fa-facebook fa-lg"></i>
-                      </a>
-                      <a class="btn btn-twitter btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
-                        <i class="fab fa-twitter fa-lg"></i>
-                      </a>
-                      <a class="btn btn-instagram btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
-                        <i class="fab fa-instagram fa-lg"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </div>                
+                  <div class="mb-3">
+                      <label for="confirm-password" class="form-label">Confirm New Password</label>
+                      <div class="input-group">
+                          <input type="password" class="form-control" id="confirm-password" required>
+                          <button class="toggle-btn" type="button">
+                              <i class="fas fa-eye"></i>
+                          </button>
+                      </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Update Password</button>
+              </form>
               </div>
             </div>
+          </div> 
 
-            <div class="col-12 col-xl-6">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <div class="row">
-                    <div class="col-md-8 d-flex align-items-center">
-                      <h6 class="mb-0">Restaurant Information</h6>
-                    </div>
-
-                    <div class="modal fade" id="editRestaurantModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="editProfileModalLabel">Edit Restaurant</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <form id="restaurant-form">
-                              <div class="mb-3">
-                                <label for="restaurant-name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="new-restaurant-name" required>
-                              </div>
-                              <div class="mb-3">
-                                <label for="restaurant-address" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="new-restaurant-address" required>
-                              </div>
-                              <div class="mb-3">
-                                <label for="restaurant-phone" class="form-label">Phone</label>
-                                <input type="tel" class="form-control" id="new-restaurant-phone" required>
-                              </div>
-                              <div class="mb-3">
-                                <label for="restaurant-email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="new-restaurant-email" required>
-                              </div>
-                              <button type="submit" class="btn btn-primary">Update Restaurant</button>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-xl-4 text-end">
-                      <a href="javascript:;" id="edit-restaurant-btn">
-                        <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Restaurant"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body p-3">
-                  <ul class="list-group">
-                    <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Name:</strong> &nbsp; <span id="restaurant-name">Loading...</span></li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Mobile:</strong> &nbsp; <span id="restaurant-phone">Loading...</span></li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; <span id="restaurant-email">Loading...</span></li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Address:</strong> &nbsp; <span id="restaurant-address">Loading...</span></li>
-                    <li class="list-group-item border-0 ps-0 pb-0">
-                      <strong class="text-dark text-sm">Social:</strong> &nbsp;
-                      <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
-                        <i class="fab fa-facebook fa-lg"></i>
-                      </a>
-                      <a class="btn btn-twitter btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
-                        <i class="fab fa-twitter fa-lg"></i>
-                      </a>
-                      <a class="btn btn-instagram btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
-                        <i class="fab fa-instagram fa-lg"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </div>                
+          <div class="col-12 col-xl-6">
+            <div class="card card-plain h-100">
+              <div class="card-header pb-0 p-3">
+                <h6 class="mb-0">Change Restaurant Image</h6>
               </div>
-            </div>           
-          </div>
-
-          <div class="row">
-            <div class="col-12 col-xl-6">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <h6 class="mb-0">Change Password</h6>
+              <div class="card-body p-3">
+                <div id="imagePreview" class="mb-3 text-center position-relative">
+                  <img id="selectedImage" src="" alt="Image Preview" class="img-fluid" style="display: block; max-width: 80%; height: auto;" />
                 </div>
-                <div class="card-body p-3">
-                  <form id="password-form">
-                    <div class="mb-3">
-                        <label for="new-password" class="form-label">New Password</label>
-                        <div class="input-group">
-                            <input type="password" id="new-password" class="form-control">
-                            <button class="toggle-btn" type="button">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="confirm-password" class="form-label">Confirm New Password</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="confirm-password" required>
-                            <button class="toggle-btn" type="button">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Update Password</button>
-                </form>
-                </div>
+                <label for="imageUpload" class="btn btn-primary">Choose Image</label>
+                <input type="file" id="imageUpload" style="display: none;" accept="image/*" onchange="previewImage(event)" />
+                <!-- <button type="button" id="removeImage" class="btn btn-light p-1" style="display: none;">
+                  <span aria-hidden="true" style="font-size: 24px; color: black;">&times;</span>
+                </button> -->
               </div>
-            </div> 
-          </div>
-
+                           
+          </div> 
         </div>
+
       </div>
     </div>
+  </div>
     <footer class="footer py-4  ">
       <div class="container-fluid">
         <div class="row align-items-center justify-content-lg-between">
@@ -670,6 +701,37 @@
       }
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
+
+// Fonksiyon resmi önizlemeye ve arka plan resmini göstermek için kullanılır
+function previewImage(event) {
+  const input = event.target;
+  const imagePreviewElement = document.getElementById('selectedImage');
+  const removeImageButton = document.getElementById('removeImage');
+
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      imagePreviewElement.src = e.target.result;
+      imagePreviewElement.style.display = 'block';
+      removeImageButton.style.display = 'block';
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    // Eğer dosya seçilmemişse, page-header'dan arka plan resmini al
+    const pageHeaderElement = document.getElementById('page-header');
+    const backgroundImage = getComputedStyle(pageHeaderElement).syle.backgroundImage;
+
+    if (backgroundImage && backgroundImage !== 'none') {
+      const imageUrl = backgroundImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+      imagePreviewElement.src = imageUrl;
+      imagePreviewElement.style.display = 'block';
+      removeImageButton.style.display = 'block';
+    }
+  }
+}
+
   </script>
 
   <!-- Github buttons -->

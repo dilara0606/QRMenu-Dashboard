@@ -109,12 +109,15 @@ document.getElementById('password-form').addEventListener('submit', async (event
     }
 
     try {
-        const response = await fetch('http://localhost:8088/api/v1/admin/user/update-password', {
+        const response = await fetch('http://localhost:8088/api/v1/auth/reset-password', {
             method: 'POST',
-            headers: headers,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
             body: JSON.stringify({
-                newPassword : newPassword
-               }),
+                password: newPassword
+            }),
         });
 
         if (response.ok) {
@@ -227,6 +230,14 @@ function fetchRestaurantInfo() {
     const pageHeader = document.getElementById("page-header");
     pageHeader.style.backgroundImage = `url('${imageUrl}')`;
 
+    const selectedImage = document.getElementById("selectedImage");
+    if (imageUrl) {
+      selectedImage.src = imageUrl;
+      selectedImage.style.display = 'block'; 
+    } else {
+      selectedImage.style.display = 'none'; 
+    }
+
   })
   .catch(error => {
     console.error("Error fetching user info:", error);
@@ -253,11 +264,22 @@ document.getElementById('restaurant-form').addEventListener('submit', async (eve
       return;
   }
 
+  const selectedImageElement = document.getElementById('selectedImage');
+  let imageUrl = selectedImageElement.src;
+
+  if (!imageUrl || imageUrl === "data:,") {
+    console.log(imageUrl);
+    const pageHeaderElement = document.getElementById('page-header');
+    let backgroundImage = getComputedStyle(pageHeaderElement).backgroundImage;
+    imageUrl = backgroundImage
+  }
+
   const restaurantData = {
       name: document.getElementById('new-restaurant-name').value,
       address: document.getElementById('new-restaurant-address').value,
       phone: document.getElementById('new-restaurant-phone').value,
       email: document.getElementById('new-restaurant-email').value,
+      imageUrl: imageUrl
   };
 
   try {

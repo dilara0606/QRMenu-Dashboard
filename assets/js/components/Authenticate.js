@@ -229,3 +229,71 @@ function activateAccount() {
 
 };
 
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('resetPasswordLink').addEventListener('click', function(event) {
+        event.preventDefault(); 
+
+        var email = document.getElementById('email').value;
+        
+        if (email) {
+            fetch('http://localhost:8088/api/v1/auth/forgot-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text(); 
+            })
+            .then(data => {
+                localStorage.setItem('activationCode', data);
+                showSuccessMessage("Password reset email has been sent successfully.");
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showErrorMessage('An error occurred.');
+            });
+        } else {
+            handleError('Email address is required.');
+        }
+    });
+});
+
+function resetPassword() {
+    const activationCode = localStorage.getItem('activationCode');
+    console.log(activationCode);
+    if (!activationCode) {
+        showErrorMessage('No activation code found. Please request a reset link first.');
+        return;
+    }
+
+    var newPassword = document.getElementById('new-password').value;
+    console.log(newPassword);
+
+    if (newPassword) {
+        const token = activationCode;
+        const url = `http://localhost:8088/api/v1/auth/reset-password-with-token?token=${token}&newPassword=${newPassword}`;
+
+        fetch(url, {
+            method: 'POST'
+        })
+        .then(response => {
+            if (response.ok) {
+                showSuccessMessage('Password has been reset successfully.');
+                localStorage.removeItem('activationCode');
+            } else {
+                showErrorMessage('Failed to reset password.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showErrorMessage('An error occurred.');
+        });
+    } else {
+        showErrorMessage('New password is required.');
+    }
+};
